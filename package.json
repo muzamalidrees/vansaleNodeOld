@@ -1,7 +1,6 @@
 {
   "name": "vanSaleNode",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,5 +11,15 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muzamalidrees/vanSaleNode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/muzamalidrees/vanSaleNode/issues"
+  },
+  "homepage": "https://github.com/muzamalidrees/vanSaleNode#readme",
+  "description": ""
 }
