@@ -10,16 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.4"
-  },
-  "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/muzamalidrees/vanSaleNode.git"
-  },
-  "bugs": {
-    "url": "https://github.com/muzamalidrees/vanSaleNode/issues"
-  },
-  "homepage": "https://github.com/muzamalidrees/vanSaleNode#readme",
-  "description": ""
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "mongoose": "^5.4.16",
+    "mysql": "^2.16.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
+  }
 }
