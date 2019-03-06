@@ -3,6 +3,9 @@ var bodyparser = require('body-parser')
 
 var server = express()
 
+
+var users = [{ id: '1', username: 'abc', password: '123' }]
+
 server.use(express.static('./frontend'))
 server.use(bodyparser.urlencoded({ extended: true }))
 server.use(bodyparser.json())
@@ -11,8 +14,8 @@ server.use(bodyparser.json())
 
 require('./server/configs/db-config-mysql');
 require('./server/configs/passport-config')(server);
-require('./server/routes/route-login')(server);
-require('./server/routes/route-users')(server);
+// require('./server/routes/route-login')(server);
+require('./server/routes/route-users')(server, users);
 
 
 
