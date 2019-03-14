@@ -14,6 +14,17 @@ module.exports = function (server) {
 
             })
     })
+
+    server.get('/getAllUsers', (req, res) => {
+        Users.findAll({ where: { name: 'abc' } }).then(users => {
+
+            res.json({ success: true, data: users })
+        })
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
 }
 
 

@@ -10,17 +10,17 @@ module.exports = function (server) {
             }
             if (!user) {
                 res.send({ success: 'false', message: info.message });
-                return 
+                return
             }
             req.logIn(user, function (err) {
                 if (err) {
                     return next(err);
                 }
                 if (user.role_id == 1) {
-                    res.redirect('/about/' + user.username)
+                    res.redirect('/home/' + user.username)
                 }
                 else {
-                    res.redirect('/ohome/' + user.username)
+                    res.redirect('/home/' + user.username)
                 }
             });
         })(req, res, next);
@@ -49,12 +49,12 @@ module.exports = function (server) {
     // );
     server.get('/about/:name', isLoggedIn, function (req, res) {
 
-        res.send({ success: 'logged in', route: '/about/' + req.user.username })
+        res.send({ success: 'logged in', route: '/about/' + req.user.username, message: '' })
 
     });
-    server.get('/ohome/:name', isLoggedIn, function (req, res) {
+    server.get('/home/:name', isLoggedIn, function (req, res) {
 
-        res.send({ success: 'logged in', route: '/ohome/' + req.user.username })
+        res.send({ success: 'logged in', route: '/home/' + req.user.username, message: '' })
 
     });
     function isLoggedIn(req, res, next) {
@@ -66,9 +66,12 @@ module.exports = function (server) {
         // otherwise, redirect them to the login page
         res.redirect('/login');
     }
-    server.get('/logout', function (req, res) {
-        req.logout();
-        res.redirect('/login');
-    });
+    // server.get('/logout', function (req, res) {
+    //     req.logout();
+    //     res.redirect('/login');
+    // });
+    // server.get('/login', function(req, res){
+    //     res.send({message:'ok'});
+    // })
 
 }

@@ -20,10 +20,10 @@ module.exports = function (server) {
 
     passport.use(new localStrategy(
         function (username, password, next) {
-            Users.findOne({ where: { username: username } })
+            Users.findOne({ where: { email: username } })
                 .then((users) => {
                     if (!users) {
-                        next(null, false, { message: 'username doesnt exist' })
+                        next(null, false, { message: 'email doesnt exist' })
                     }
                     else if (users.password !== password) {
                         next(null, false, { message: 'incorrect Password' })
