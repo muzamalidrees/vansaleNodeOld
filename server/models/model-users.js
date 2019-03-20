@@ -6,7 +6,7 @@ const configs = { paranoid: true, underscored: true, }
 const Users = sequelize.define('users', userSchema, configs);
 
 Users.sync()
-    .then(() => { console.log('Database is ready') })
+    .then(() => { console.log('users is ready') })
     .catch((err) => {
         console.log(err)
     })

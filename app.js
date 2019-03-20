@@ -13,6 +13,9 @@ require('./server/configs/db-config-mysql');
 require('./server/configs/passport-config')(server);
 require('./server/routes/route-login')(server);
 require('./server/routes/route-users')(server);
+require('./server/routes/route-customers')(server);
+require('./server/routes/route-priceGroups')(server);
+require('./server/routes/route-customerPricing')(server);
 
 
 
