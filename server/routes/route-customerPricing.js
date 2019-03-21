@@ -19,4 +19,18 @@ module.exports = function (server) {
 
             })
     })
+
+    server.get('/getAllCustomerPricing', (req, res) => {
+        // Customers.findAll({ where: { name: 'abc' } }).then(customers => {
+        CustomerPricing.findAll(
+            // { limit: req.body.limit }
+        ).then(customerPrices => {
+
+            res.json({ success: true, data: customerPrices })
+        })
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
 }

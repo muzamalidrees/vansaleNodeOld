@@ -16,6 +16,8 @@ require('./server/routes/route-users')(server);
 require('./server/routes/route-customers')(server);
 require('./server/routes/route-priceGroups')(server);
 require('./server/routes/route-customerPricing')(server);
+require('./server/routes/route-drivers')(server);
+require('./server/routes/route-routes')(server);
 
 
 
