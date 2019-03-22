@@ -14,6 +14,7 @@ server.use(bodyparser.json())
 require('./server/configs/db-config-mysql');
 require('./server/configs/passport-config')(server, users);
 require('./server/routes/route-login')(server);
+require('./server/models/model-users');
 require('./server/routes/route-users')(server);
 
 
