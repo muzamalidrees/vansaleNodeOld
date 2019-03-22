@@ -1,27 +1,35 @@
-var Users = require('../models/model-users')
+var Drivers = require('../models/model-drivers')
 var passport = require('passport')
 
 module.exports = function (server) {
 
-    server.post('/addNewUser', (req, res) => {
-        var user = { name: req.body.name, email: req.body.email, cell: req.body.cell, address: req.body.address, username: req.body.username, password: req.body.password, role_id: req.body.role }
-        Users.create(user)
-            .then((user) => {
-                res.json({ success: true, data: user })
+    server.post('/addNewDriver', (req, res) => {
+        var driver = { name: req.body.name, email: req.body.email, cell: req.body.cell, address: req.body.address, area_id: req.body.area, route_id: req.body.route }
+        Drivers
+            .findOrCreate({ where: { email: req.body.email }, defaults: driver })
+            .then(([driver, created]) => {
+
+                if (created) {
+                    res.json({ success: true, data: driver, message: 'driver registered successfully' })
+                }
+                if (!created) {
+                    res.json({ success: false, message: 'driver already exists' })
+                }
+
             })
             .catch((err) => {
-                res.json({ success: false, err: err })
+                res.json({ success: false, err: err, message: 'something went wrong' })
 
             })
     })
 
-    server.get('/getAllUsers', (req, res) => {
-        // Users.findAll({ where: { name: 'abc' } }).then(users => {
-        Users.findAll(
+    server.get('/getAllDrivers', (req, res) => {
+        // Customers.findAll({ where: { name: 'abc' } }).then(customers => {
+        Drivers.findAll(
             // { limit: req.body.limit }
-        ).then(users => {
+        ).then(drivers => {
 
-            res.json({ success: true, data: users })
+            res.json({ success: true, data: drivers })
         })
             .catch((err) => {
                 res.json({ success: false, err: err })
