@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "vansale",
+    "password": "vansale1234",
+    "database": "muzamaldb",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "vansale",
+    "password": "vansale1234",
+    "database": "muzamaldb",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "vansale",
+    "password": "vansale1234",
+    "database": "muzamaldb",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}

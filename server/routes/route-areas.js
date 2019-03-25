@@ -3,7 +3,7 @@ var Areas = require('../models/model-areas')
 module.exports = function (server) {
 
     server.post('/addNewArea', (req, res) => {
-        var area = { name: req.body.name }
+        var area = { name: req.body.name, area_code: req.body.areaCode }
         Areas
             .findOrCreate({ where: { name: req.body.name }, defaults: area })
             .then(([area, created]) => {

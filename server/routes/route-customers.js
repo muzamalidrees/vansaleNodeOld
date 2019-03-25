@@ -36,6 +36,21 @@ module.exports = function (server) {
 
             })
     })
+    server.delete('/deleteCustomer', (req, res) => {
+        Customers
+            .findOne({ where: { email: req.body.value } })
+            .then(customer => {
+                return customer.destroy();
+            })
+            .then(customer => {
+                res.json({ success: true, data: customer, message: 'customer with name: ' + customer.name + 'deleted.' })
+
+            })
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
 }
 
 
