@@ -1,19 +1,18 @@
-var Drivers = require('../models/model-drivers')
-// var passport = require('passport')
+var Permissions = require('../models/model-permissions')
 
 module.exports = function (server) {
 
-    server.post('/addNewDriver', (req, res) => {
-        var driver = { name: req.body.name, email: req.body.email, cell: req.body.cell, address: req.body.address, area_id: req.body.area, route_id: req.body.route }
-        Drivers
-            .findOrCreate({ where: { email: req.body.email }, defaults: driver })
-            .then(([driver, created]) => {
+    server.post('/addNewPermission', (req, res) => {
+        var permission = { name: req.body.name }
+        Permissions
+            .findOrCreate({ where: { name: req.body.name }, defaults: permission })
+            .then(([permission, created]) => {
 
                 if (created) {
-                    res.json({ success: true, data: driver, message: 'driver registered successfully' })
+                    res.json({ success: true, data: permission, message: 'permission: ' + permission.name + ' registered successfully.' })
                 }
                 if (!created) {
-                    res.json({ success: false, message: 'driver already exists' })
+                    res.json({ success: false, message: 'permission with name: ' + permission.name + 'already exists.' })
                 }
 
             })
@@ -21,15 +20,16 @@ module.exports = function (server) {
                 res.json({ success: false, err: err, message: 'something went wrong' })
 
             })
+
     })
 
-    server.get('/getAllDrivers', (req, res) => {
-        // Customers.findAll({ where: { name: 'abc' } }).then(customers => {
-        Drivers.findAll(
+    server.get('/getAllPermissions', (req, res) => {
+        // Users.findAll({ where: { name: 'abc' } }).then(users => {
+        Permissions.findAll(
             // { limit: req.body.limit }
-        ).then(drivers => {
+        ).then(permissions => {
 
-            res.json({ success: true, data: drivers })
+            res.json({ success: true, data: permissions })
         })
             .catch((err) => {
                 res.json({ success: false, err: err })

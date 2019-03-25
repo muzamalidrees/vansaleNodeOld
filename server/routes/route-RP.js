@@ -1,19 +1,18 @@
-var Drivers = require('../models/model-drivers')
-// var passport = require('passport')
+var RP = require('../models/model-RP')
 
 module.exports = function (server) {
 
-    server.post('/addNewDriver', (req, res) => {
-        var driver = { name: req.body.name, email: req.body.email, cell: req.body.cell, address: req.body.address, area_id: req.body.area, route_id: req.body.route }
-        Drivers
-            .findOrCreate({ where: { email: req.body.email }, defaults: driver })
-            .then(([driver, created]) => {
+    server.post('/addNewRP', (req, res) => {
+        var rolePermission = { role_id: req.body.role, permission_id: req.body.permission }
+        RP
+            .findOrCreate({ where: { role_id: req.body.role }, defaults: rolePermission })
+            .then(([rolePermission, created]) => {
 
                 if (created) {
-                    res.json({ success: true, data: driver, message: 'driver registered successfully' })
+                    res.json({ success: true, data: rolePermission, message: 'permission against that role registered successfully.' })
                 }
                 if (!created) {
-                    res.json({ success: false, message: 'driver already exists' })
+                    res.json({ success: false, message: 'permission against that role already exists.' })
                 }
 
             })
@@ -21,15 +20,16 @@ module.exports = function (server) {
                 res.json({ success: false, err: err, message: 'something went wrong' })
 
             })
+
     })
 
-    server.get('/getAllDrivers', (req, res) => {
-        // Customers.findAll({ where: { name: 'abc' } }).then(customers => {
-        Drivers.findAll(
+    server.get('/getAllRolesPermissions', (req, res) => {
+        // Users.findAll({ where: { name: 'abc' } }).then(users => {
+        RP.findAll(
             // { limit: req.body.limit }
-        ).then(drivers => {
+        ).then(RPs => {
 
-            res.json({ success: true, data: drivers })
+            res.json({ success: true, data: RPs })
         })
             .catch((err) => {
                 res.json({ success: false, err: err })

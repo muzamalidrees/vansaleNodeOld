@@ -1,19 +1,18 @@
-var Drivers = require('../models/model-drivers')
-// var passport = require('passport')
+var Roles = require('../models/model-roles')
 
 module.exports = function (server) {
 
-    server.post('/addNewDriver', (req, res) => {
-        var driver = { name: req.body.name, email: req.body.email, cell: req.body.cell, address: req.body.address, area_id: req.body.area, route_id: req.body.route }
-        Drivers
-            .findOrCreate({ where: { email: req.body.email }, defaults: driver })
-            .then(([driver, created]) => {
+    server.post('/addNewRole', (req, res) => {
+        var role = { name: req.body.name }
+        Roles
+            .findOrCreate({ where: { name: req.body.name }, defaults: role })
+            .then(([role, created]) => {
 
                 if (created) {
-                    res.json({ success: true, data: driver, message: 'driver registered successfully' })
+                    res.json({ success: true, data: role, message: 'role: ' + role.name + ' registered successfully.' })
                 }
                 if (!created) {
-                    res.json({ success: false, message: 'driver already exists' })
+                    res.json({ success: false, message: 'role with name: ' + role.name + 'already exists.' })
                 }
 
             })
@@ -21,15 +20,16 @@ module.exports = function (server) {
                 res.json({ success: false, err: err, message: 'something went wrong' })
 
             })
+
     })
 
-    server.get('/getAllDrivers', (req, res) => {
-        // Customers.findAll({ where: { name: 'abc' } }).then(customers => {
-        Drivers.findAll(
+    server.get('/getAllRoles', (req, res) => {
+        // Users.findAll({ where: { name: 'abc' } }).then(users => {
+        Roles.findAll(
             // { limit: req.body.limit }
-        ).then(drivers => {
+        ).then(roles => {
 
-            res.json({ success: true, data: drivers })
+            res.json({ success: true, data: roles })
         })
             .catch((err) => {
                 res.json({ success: false, err: err })
