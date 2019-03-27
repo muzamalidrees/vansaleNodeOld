@@ -6,7 +6,9 @@ const configs = { paranoid: true, underscored: true, }
 const PriceGroups = sequelize.define('price_groups', PGSchema, configs);
 
 PriceGroups.sync()
-    .then(() => { console.log('pricegroups is ready') })
+    .then(() => { 
+        // console.log('pricegroups is ready')
+     })
     .catch((err) => {
         console.log(err)
     })

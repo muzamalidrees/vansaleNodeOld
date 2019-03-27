@@ -6,7 +6,9 @@ const configs = { paranoid: true, underscored: true, }
 const Products = sequelize.define('products', productSchema, configs);
 
 Products.sync()
-    .then(() => { console.log('products is ready') })
+    .then(() => {
+        //  console.log('products is ready')
+         })
     .catch((err) => {
         console.log('err')
         console.log(err)

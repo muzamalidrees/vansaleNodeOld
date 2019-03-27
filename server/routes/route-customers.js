@@ -38,14 +38,38 @@ module.exports = function (server) {
     })
     server.delete('/deleteCustomer', (req, res) => {
         Customers
-            .findOne({ where: { email: req.body.value } })
+            .findOne({ where: { id: req.body.value } })
             .then(customer => {
                 return customer.destroy();
             })
             .then(customer => {
-                res.json({ success: true, data: customer, message: 'customer with name: ' + customer.name + 'deleted.' })
+                res.json({ success: true, data: customer, message: 'customer with name: ' + customer.name + ' deleted.' })
 
             })
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
+    server.put('/updateCustomer', (req, res) => {
+        Customers
+            .findOne({ where: { id: req.body.id } })
+            .then(customer => {
+                customer
+                    .update({
+                        name: req.body.name,
+                        email: req.body.email,
+                        cell: req.body.cell,
+                        address: req.body.address,
+                        area_id: req.body.area,
+                        route_id: req.body.route,
+                    })
+                    .then((customer) => {
+
+                        res.json({ success: true, data: customer, message: 'customer with id: ' + customer.id + ' updated successfully.' })
+                    })
+            })
+
             .catch((err) => {
                 res.json({ success: false, err: err })
 

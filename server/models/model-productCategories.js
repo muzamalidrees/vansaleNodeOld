@@ -6,7 +6,9 @@ const configs = { paranoid: true, underscored: true, }
 const ProductCategories = sequelize.define('product_categories', PCSchema, configs);
 
 ProductCategories.sync()
-    .then(() => { console.log('product-categories is ready') })
+    .then(() => { 
+        // console.log('product-categories is ready')
+     })
     .catch((err) => {
         console.log(err)
     })

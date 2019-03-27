@@ -6,7 +6,9 @@ const configs = { paranoid: true, underscored: true, }
 const Areas = sequelize.define('areas', areaSchema, configs);
 
 Areas.sync()
-    .then(() => { console.log('areas is ready') })
+    .then(() => { 
+        // console.log('areas is ready')
+     })
     .catch((err) => {
         console.log(err)
     })

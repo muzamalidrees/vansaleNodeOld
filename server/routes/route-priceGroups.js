@@ -33,5 +33,42 @@ module.exports = function (server) {
 
             })
     })
+    server.delete('/deletePG', (req, res) => {
+        PriceGroups
+            .findOne({ where: { id: req.body.value } })
+            .then(priceGroup => {
+                return priceGroup.destroy();
+            })
+            .then(priceGroup => {
+                res.json({ success: true, data: priceGroup, message: 'priceGroup with name: ' + priceGroup.name + ' deleted.' })
+
+            })
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
+    server.put('/updatePG', (req, res) => {
+        PriceGroups
+            .findOne({ where: { id: req.body.id } })
+            .then(priceGroup => {
+                priceGroup
+                    .update({
+                        name: req.body.name,
+                        price: req.body.price,
+                        buying_back_price: req.body.bbprice,
+                        product_category_id: req.body.category,
+                    })
+                    .then((priceGroup) => {
+
+                        res.json({ success: true, data: priceGroup, message: 'priceGroup with id: ' + priceGroup.id + ' updated successfully.' })
+                    })
+            })
+
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
 
 }

@@ -6,7 +6,9 @@ const configs = { paranoid: true, underscored: true, }
 const Customers = sequelize.define('customers', customerSchema, configs);
 
 Customers.sync()
-    .then(() => { console.log('customers is ready') })
+    .then(() => {
+        //  console.log('customers is ready')
+         })
     .catch((err) => {
         console.log(err)
     })

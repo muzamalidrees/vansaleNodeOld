@@ -37,6 +37,43 @@ module.exports = function (server) {
 
             })
     })
+    server.delete('/deleteProduct', (req, res) => {
+        Products
+            .findOne({ where: { id: req.body.value } })
+            .then(product => {
+                return product.destroy();
+            })
+            .then(product => {
+                res.json({ success: true, data: product, message: 'product with name: ' + product.name + ' deleted.' })
+
+            })
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
+    server.put('/updateProduct', (req, res) => {
+        Products
+            .findOne({ where: { id: req.body.id } })
+            .then(product => {
+                product
+                    .update({
+                        name: req.body.name,
+                        price: req.body.price,
+                        description: req.body.description,
+                        product_category_id: req.body.category,
+                    })
+                    .then((product) => {
+
+                        res.json({ success: true, data: product, message: 'customer with id: ' + product.id + ' updated successfully.' })
+                    })
+            })
+
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
 }
 
 

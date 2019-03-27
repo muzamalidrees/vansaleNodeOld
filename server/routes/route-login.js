@@ -16,45 +16,29 @@ module.exports = function (server) {
                 if (err) {
                     return next(err);
                 }
-                if (user.role_id == 1) {
-                    res.redirect('/home/' + user.username)
-                }
-                else {
-                    res.redirect('/home/' + user.username)
-                }
+                // if (user.role_id == 1) {
+                res.redirect('/home')
+                // }
+                // else {
+                // res.redirect('/home/' + user.username)
+                // }
             });
         })(req, res, next);
     });
 
+    server.get('/logout', function (req, res) {
+        req.logout();
+        res.send({ success: true, route: '/home', user: req.user });
+    })
 
+    // server.get('/about/:name', isLoggedIn, function (req, res) {
 
-    // server.post('/login', passport.authenticate('local', {
-    //     // successRedirect: '/ohome',
-    //     // failureRedirect: '/login',
-    //     // failureFlash: req.flash('invalid username or password')
-    // }),
-    //     function (req, res) {
-    //         console.log(req)
-    //         if (req.user.role_id == 1) {
-    //             res.redirect('/about/'
-    //                 + req.user.username
-    //             )
-    //         }
-    //         else {
-    //             res.redirect('/ohome/'
-    //                 + req.user.username
-    //             )
-    //         }
-    //     }
-    // );
-    server.get('/about/:name', isLoggedIn, function (req, res) {
+    //     res.send({ success: 'logged in', route: '/about/' + req.user.username, message: '' })
 
-        res.send({ success: 'logged in', route: '/about/' + req.user.username, message: '' })
+    // });
+    server.get('/home', isLoggedIn, function (req, res) {
 
-    });
-    server.get('/home/:name', isLoggedIn, function (req, res) {
-
-        res.send({ success: 'logged in', route: '/home/' + req.user.username, message: '' })
+        res.send({ success: 'logged in', route: '/home', message: '' })
 
     });
     function isLoggedIn(req, res, next) {

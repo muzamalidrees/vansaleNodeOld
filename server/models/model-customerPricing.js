@@ -6,7 +6,9 @@ const configs = { paranoid: true, underscored: true, }
 const CustomerPricing = sequelize.define('customer_pricing', CPSchema, configs);
 
 CustomerPricing.sync()
-    .then(() => { console.log('customer-pricing is ready') })
+    .then(() => { 
+        // console.log('customer-pricing is ready') 
+})
     .catch((err) => {
         console.log(err)
     })

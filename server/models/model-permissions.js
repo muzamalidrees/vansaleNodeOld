@@ -6,7 +6,9 @@ const configs = { paranoid: true, underscored: true, }
 const Permissions = sequelize.define('permissions', permissionSchema, configs);
 
 Permissions.sync()
-    .then(() => { console.log('permissions is ready') })
+    .then(() => { 
+        // console.log('permissions is ready') 
+    })
     .catch((err) => {
         console.log(err)
     })
