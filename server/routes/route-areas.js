@@ -34,5 +34,39 @@ module.exports = function (server) {
 
             })
     })
+    server.delete('/deleteArea', (req, res) => {
+        Areas
+            .findOne({ where: { id: req.body.value } })
+            .then(area => {
+                return area.destroy();
+            })
+            .then(area => {
+                res.json({ success: true, data: area, message: 'area with name: ' + area.name + ' deleted.' })
+
+            })
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
+    server.put('/updateArea', (req, res) => {
+        Areas
+            .findOne({ where: { id: req.body.id } })
+            .then(area => {
+                area
+                    .update({
+                        name: req.body.name,
+                    })
+                    .then((area) => {
+
+                        res.json({ success: true, data: area, message: 'area with id: ' + area.id + ' updated successfully.' })
+                    })
+            })
+
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
 
 }

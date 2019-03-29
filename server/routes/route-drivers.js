@@ -36,6 +36,45 @@ module.exports = function (server) {
 
             })
     })
+    server.delete('/deleteDriver', (req, res) => {
+        Drivers
+            .findOne({ where: { id: req.body.value } })
+            .then(driver => {
+                return driver.destroy();
+            })
+            .then(driver => {
+                res.json({ success: true, data: driver, message: 'driver with name: ' + driver.name + ' deleted.' })
+
+            })
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
+    server.put('/updateDriver', (req, res) => {
+        Drivers
+            .findOne({ where: { id: req.body.id } })
+            .then(driver => {
+                driver
+                    .update({
+                        name: req.body.name,
+                        email: req.body.email,
+                        cell: req.body.cell,
+                        address: req.body.address,
+                        area_id: req.body.area,
+                        route_id: req.body.route,
+                    })
+                    .then((driver) => {
+
+                        res.json({ success: true, data: driver, message: 'driver with id: ' + driver.id + ' updated successfully.' })
+                    })
+            })
+
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
 }
 
 

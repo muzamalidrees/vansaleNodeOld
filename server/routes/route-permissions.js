@@ -36,6 +36,40 @@ module.exports = function (server) {
 
             })
     })
+    server.delete('/deletePermission', (req, res) => {
+        Permissions
+            .findOne({ where: { id: req.body.value } })
+            .then(permission => {
+                return permission.destroy();
+            })
+            .then(permission => {
+                res.json({ success: true, data: permission, message: 'permission with name: ' + permission.name + ' deleted.' })
+
+            })
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
+    server.put('/updatePermission', (req, res) => {
+        Permissions
+            .findOne({ where: { id: req.body.id } })
+            .then(permission => {
+                permission
+                    .update({
+                        name: req.body.name,
+                    })
+                    .then((permission) => {
+
+                        res.json({ success: true, data: permission, message: 'permission with id: ' + permission.id + ' updated successfully.' })
+                    })
+            })
+
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
 }
 
 

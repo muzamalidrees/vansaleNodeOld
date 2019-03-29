@@ -21,15 +21,15 @@ module.exports = function (server) {
     passport.use(new localStrategy(
         function (username, password, next) {
             Users.findOne({ where: { email: username } })
-                .then((users) => {
-                    if (!users) {
+                .then((user) => {
+                    if (!user) {
                         next(null, false, { message: 'email doesnt exist' })
                     }
-                    else if (users.password !== password) {
+                    else if (user.password !== password) {
                         next(null, false, { message: 'incorrect Password' })
                     }
                     else {
-                        next(null, users)
+                        next(null, user)
                     }
                 })
                 .catch(err => next(err));
@@ -37,15 +37,15 @@ module.exports = function (server) {
 
     ));
 
-    passport.serializeUser(function (users, next) {
+    passport.serializeUser(function (user, next) {
         console.log('serialize')
-        next(null, users.id);
+        next(null, user.id);
     })
     passport.deserializeUser(function (id, next) {
         console.log('deserialize')
         Users.findById(id)
-            .then((users) => {
-                return next(null, users)
+            .then((user) => {
+                return next(null, user)
             });
     })
 }

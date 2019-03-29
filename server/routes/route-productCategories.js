@@ -33,5 +33,39 @@ module.exports = function (server) {
 
             })
     })
+    server.delete('/deletePC', (req, res) => {
+        ProductCategories
+            .findOne({ where: { id: req.body.value } })
+            .then(productCategory => {
+                return productCategory.destroy();
+            })
+            .then(productCategory => {
+                res.json({ success: true, data: productCategory, message: 'productCategory with name: ' + productCategory.name + ' deleted.' })
+
+            })
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
+    server.put('/updatePC', (req, res) => {
+        ProductCategories
+            .findOne({ where: { id: req.body.id } })
+            .then(productCategory => {
+                productCategory
+                    .update({
+                        name: req.body.name,
+                    })
+                    .then((productCategory) => {
+
+                        res.json({ success: true, data: productCategory, message: 'productCategory with id: ' + productCategory.id + ' updated successfully.' })
+                    })
+            })
+
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
 
 }

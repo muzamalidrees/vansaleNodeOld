@@ -38,7 +38,7 @@ module.exports = function (server) {
     // });
     server.get('/home', isLoggedIn, function (req, res) {
 
-        res.send({ success: 'logged in', route: '/home', message: '' })
+        res.send({ success: 'logged in', route: '/home', message: '', user: req.user })
 
     });
     function isLoggedIn(req, res, next) {

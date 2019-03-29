@@ -36,6 +36,42 @@ module.exports = function (server) {
 
             })
     })
+    server.delete('/deleteRoute', (req, res) => {
+        Routes
+            .findOne({ where: { id: req.body.value } })
+            .then(route => {
+                return route.destroy();
+            })
+            .then(route => {
+                res.json({ success: true, data: route, message: 'route with name: ' + route.name + ' deleted.' })
+
+            })
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
+    server.put('/updateRoute', (req, res) => {
+        Routes
+            .findOne({ where: { id: req.body.id } })
+            .then(route => {
+                route
+                    .update({
+                        name: req.body.name,
+                        description: req.body.description,
+                        area_id: req.body.area
+                    })
+                    .then((route) => {
+
+                        res.json({ success: true, data: route, message: 'route with id: ' + route.id + ' updated successfully.' })
+                    })
+            })
+
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
 }
 
 

@@ -36,6 +36,46 @@ module.exports = function (server) {
 
             })
     })
+    server.delete('/deleteUser', (req, res) => {
+        Users
+            .findOne({ where: { id: req.body.value } })
+            .then(user => {
+                return user.destroy();
+            })
+            .then(user => {
+                res.json({ success: true, data: user, message: 'user with name: ' + user.name + ' deleted.' })
+
+            })
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
+    server.put('/updateUser', (req, res) => {
+        Users
+            .findOne({ where: { id: req.body.id } })
+            .then(user => {
+                user
+                    .update({
+                        name: req.body.name,
+                        email: req.body.email,
+                        cell: req.body.cell,
+                        address: req.body.address,
+                        username: req.body.username,
+                        password: req.body.password,
+                        role_id: req.body.role,
+                    })
+                    .then((user) => {
+
+                        res.json({ success: true, data: user, message: 'user with id: ' + user.id + ' updated successfully.' })
+                    })
+            })
+
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
 }
 
 

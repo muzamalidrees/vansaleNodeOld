@@ -36,6 +36,40 @@ module.exports = function (server) {
 
             })
     })
+    server.delete('/deleteRole', (req, res) => {
+        Roles
+            .findOne({ where: { id: req.body.value } })
+            .then(role => {
+                return role.destroy();
+            })
+            .then(role => {
+                res.json({ success: true, data: role, message: 'role with name: ' + role.name + ' deleted.' })
+
+            })
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
+    server.put('/updateRole', (req, res) => {
+        Roles
+            .findOne({ where: { id: req.body.id } })
+            .then(role => {
+                role
+                    .update({
+                        name: req.body.name,
+                    })
+                    .then((role) => {
+
+                        res.json({ success: true, data: role, message: 'role with id: ' + role.id + ' updated successfully.' })
+                    })
+            })
+
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
 }
 
 
