@@ -25,6 +25,9 @@ require('./server/routes/route-areas')(server);
 require('./server/routes/route-roles')(server);
 require('./server/routes/route-permissions')(server);
 require('./server/routes/route-RP')(server);
+require('./server/routes/route-invoices')(server);
+require('./server/routes/route-returns')(server);
+require('./server/routes/route-sales')(server);
 
 
 
