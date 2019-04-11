@@ -7,7 +7,7 @@ const Returns = sequelize.define('returns', returnsSchema, configs);
 
 Returns.sync()
     .then(() => {
-        console.log('returns is ready')
+        // console.log('returns is ready')
     })
     .catch((err) => {
         console.log(err)

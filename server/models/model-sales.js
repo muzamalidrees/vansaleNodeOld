@@ -7,7 +7,7 @@ const Sales = sequelize.define('sales', salesSchema, configs);
 
 Sales.sync()
     .then(() => {
-        console.log('Sales is ready')
+        // console.log('Sales is ready')
     })
     .catch((err) => {
         console.log(err)

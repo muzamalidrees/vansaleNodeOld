@@ -7,7 +7,7 @@ const Invoices = sequelize.define('invoices', invoiceSchema, configs);
 
 Invoices.sync()
     .then(() => {
-        console.log('Invoices is ready')
+        // console.log('Invoices is ready')
     })
     .catch((err) => {
         console.log(err)

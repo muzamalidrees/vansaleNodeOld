@@ -5,7 +5,18 @@ const Sequelize = require('sequelize');
 var dbName = 'muzamaldb';
 var user = 'vansale';
 var password = 'vansale1234';
-var config = { host: 'localhost', dialect: 'mysql', logging: false, omitNull: true, }
+var config = {
+    host: 'localhost',
+    dialect: 'mysql',
+    logging: false,
+    omitNull: true,
+    pool: {
+        max: 100,
+        min: 0,
+        acquire: 1000000,
+        idle: 200000
+    }
+}
 
 const sequelize = new Sequelize(dbName, user, password, config)
 

@@ -1,4 +1,5 @@
 var express = require('express')
+
 var bodyparser = require('body-parser')
 var server = express()
 
@@ -28,6 +29,8 @@ require('./server/routes/route-RP')(server);
 require('./server/routes/route-invoices')(server);
 require('./server/routes/route-returns')(server);
 require('./server/routes/route-sales')(server);
+require('./server/routes/route-uploads')(server);
+
 
 
 
