@@ -1,133 +1,56 @@
 var Areas = require('../models/model-areas')
-var CPs = require('../models/model-customerPricing')
 var Customers = require('../models/model-customers')
 var Drivers = require('../models/model-drivers')
 var Permissions = require('../models/model-permissions')
-var PriceGroups = require('../models/model-priceGroups')
 var ProductCategories = require('../models/model-productCategories')
 var Products = require('../models/model-products')
 var Roles = require('../models/model-roles')
 var Routes = require('../models/model-routes')
-var RPs = require('../models/model-RP')
 var Users = require('../models/model-users')
 var formidable = require('formidable');
 var XLSX = require('xlsx')
 var savedResults = [];
 var failedResults = [];
+var entity;
 
 
 module.exports = function (server) {
 
     server.post('/import', (req, res) => {
-        switch (req.body.importing) {
-            case "AREAS":
-                toBeSave = toSave.area;
-                entity = Areas;
-                findCondition = toSave.areaCondition
-            case "CPs":
-                toBeSave = toSave.cp;
-                entity = CPs;
-                findCondition = toSave.cpCondition
-            case "CUSTOMERS":
-                toBeSave = toSave.customer;
-                entity = Customers;
-                findCondition = toSave.customerCondition
-            case "DRIVERS":
-                toBeSave = toSave.driver;
-                entity = Drivers;
-                findCondition = toSave.driverCondition
-            case "PERMISSIONS":
-                toBeSave = toSave.permission;
-                entity = Permissions;
-                findCondition = toSave.permissionCondition
-            case "PRICEgROUPS":
-                toBeSave = toSave.priceGroup;
-                entity = PriceGroups;
-                findCondition = toSave.pgCondition
-            case "PRODUCTcATEGORIES":
-                toBeSave = toSave.productCategory;
-                entity = ProductCategories;
-                findCondition = toSave.pcCondition
-            case "PRODUCTS":
-                toBeSave = toSave.product;
-                entity = Products;
-                findCondition = toSave.productCondition
-            case "ROLES":
-                toBeSave = toSave.role;
-                entity = Roles;
-                findCondition = toSave.roleCondition
-            case "ROUTES":
-                toBeSave = toSave.route;
-                entity = Routes;
-                findCondition = toSave.routeCondition
-            case "RPs":
-                toBeSave = toSave.rp;
-                entity = RPs;
-                findCondition = toSave.rpCondition
-            case "USERS":
-                toBeSave = toSave.user;
-                entity = Users;
-                findCondition = toSave.userCondition
-        }
+
         var form = new formidable.IncomingForm();
+
         form.parse(req, function (err, fields, files) {
-            var data;
-            var rows = []
-            var f = files[Object.keys(files)[0]];
-            var workbook = XLSX.readFile(f.path);
-            var filename = f.name;
-            var ext = filename.substring(filename.lastIndexOf('.') + 1, filename.length) || filename;
-            // console.log(ext);
+            let data;
+            let rows = []
+            let f = files[Object.keys(files)[0]];
+            let workbook = XLSX.readFile(f.path);
+            let filename = f.name;
+            let ext = filename.substring(filename.lastIndexOf('.') + 1, filename.length) || filename;
+
             if (ext === 'xlsx') {
                 var first_worksheet = workbook.Sheets[workbook.SheetNames[0]];
                 data = XLSX.utils.sheet_to_json(first_worksheet, { header: 1 });
-                // console.log(data);
-                const toSave = {
-                    area: {},
-                    areaCondition: {},
-                    cp: {},
-                    cpCondition: {},
-                    customer: { name: array2[1], email: array2[2], cell: array2[3], address: array2[4] },
-                    customerCondition: { email: req.body.email },
-                    driver: {},
-                    driverCondition: {},
-                    permission: {},
-                    permissionCondition: {},
-                    priceGroup: {},
-                    pgCondition: {},
-                    productCategory: {},
-                    pcCondition: {},
-                    product: {},
-                    productCondition: {},
-                    role: {},
-                    roleCondition: {},
-                    route: {},
-                    routeCondition: {},
-                    rp: {},
-                    rpCondition: {},
-                    user: {},
-                    userCondition: {},
-                }
-                var toBeSave;
-                var entity;
-                var findCondition;
+
                 for (i = 1; i < data.length; i++) {
                     let array2 = data[i];
-                    rows.push(toBeSave)
+                    rows.push(rowToBeSave(array2, fields.importing))
                 }
-                console.log(rows);
+
                 var promises = [];
+
                 rows.forEach(row => {
+                    let findCondition = conditionToBeChecked(row, fields.importing);
                     promises.push(
                         entity
                             .findOrCreate({ where: findCondition, defaults: row })
-                            .then(([row, created]) => {
+                            .then(([result, created]) => {
                                 if (created) {
-                                    let sRow = row.get({ plain: true });
+                                    let sRow = result.get({ plain: true });
                                     savedResults.push(sRow)
                                 }
                                 if (!created) {
-                                    let fRow = row.get({ plain: true });
+                                    let fRow = row
                                     failedResults.push(fRow)
                                 }
                             })
@@ -152,6 +75,69 @@ module.exports = function (server) {
         });
     });
 }
+
+
+rowToBeSave = (array2, fields) => {
+
+    switch (fields) {
+        case "AREAS":
+            entity = Areas;
+            let area = { name: array2[1] }
+            return area
+        case "CUSTOMERS":
+            entity = Customers;
+            let customer = { name: array2[1], email: array2[2], cell: array2[3], address: array2[4] }
+            return customer
+        case "DRIVERS":
+            entity = Drivers;
+            let driver = { name: array2[1], email: array2[2], cell: array2[3], address: array2[4] }
+            return driver
+        case "PERMISSIONS":
+            entity = Permissions;
+            let permission = { name: array2[1] }
+            return permission
+        case "PRODUCTcATEGORIES":
+            entity = ProductCategories;
+            let productCategory = { name: array2[1] }
+            return productCategory
+        case "PRODUCTS":
+            entity = Products;
+            let product = { name: array2[1], price: array2[2], description: array2[3] }
+            return product
+        case "ROLES":
+            entity = Roles;
+            let role = { name: array2[1] }
+            return role
+        case "ROUTES":
+            entity = Routes;
+            let route = { name: array2[1], description: array2[2] }
+            return route
+        case "USERS":
+            entity = Users;
+            let user = { name: array2[1], email: array2[2], cell: array2[3], address: array2[4], username: array2[5], password: array2[6] }
+            return user
+    }
+}
+conditionToBeChecked = (row, fields) => {
+    if (
+        fields === 'AREAS' ||
+        fields === 'PERMISSIONS' ||
+        fields === 'PRODUCTcATEGORIES' ||
+        fields === 'PRODUCTS' ||
+        fields === 'ROLES' ||
+        fields === 'ROUTES'
+    ) {
+        return { name: row.name }
+    }
+    else if (
+        fields === 'CUSTOMERS' ||
+        fields === 'DRIVERS' ||
+        fields === 'USERS'
+    ) {
+        return { email: row.email }
+    }
+}
+
 
 
 
