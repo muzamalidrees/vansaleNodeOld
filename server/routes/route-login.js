@@ -17,7 +17,9 @@ module.exports = function (server) {
                     return next(err);
                 }
                 // if (user.role_id == 1) {
-                res.redirect('/home')
+                // res.redirect('/home')
+                res.send({ success: 'logged in', route: '/home', message: '' })
+
                 // }
                 // else {
                 // res.redirect('/home/' + user.username)
@@ -26,10 +28,6 @@ module.exports = function (server) {
         })(req, res, next);
     });
 
-    server.get('/logout', function (req, res) {
-        req.logout();
-        res.send({ success: true, route: '/home', user: req.user });
-    })
 
     // server.get('/about/:name', isLoggedIn, function (req, res) {
 
@@ -38,7 +36,7 @@ module.exports = function (server) {
     // });
     server.get('/home', isLoggedIn, function (req, res) {
 
-        res.send({ success: 'logged in', route: '/home', message: '', user: req.user })
+        res.send({ loggedIn: true, user: req.user })
 
     });
     function isLoggedIn(req, res, next) {
@@ -58,4 +56,11 @@ module.exports = function (server) {
     //     res.send({message:'ok'});
     // })
 
+    server.get('/logout', function (req, res) {
+        console.log(req);
+        console.log(req.user);
+
+        req.logout();
+        res.send({ success: true, route: '/', user: req.user });
+    })
 }
