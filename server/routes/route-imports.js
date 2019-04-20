@@ -1,6 +1,7 @@
 var Areas = require('../models/model-areas')
 var Customers = require('../models/model-customers')
 var Drivers = require('../models/model-drivers')
+var Inventory = require('../models/model-inventory')
 var Permissions = require('../models/model-permissions')
 var ProductCategories = require('../models/model-productCategories')
 var Products = require('../models/model-products')
@@ -31,45 +32,61 @@ module.exports = function (server) {
             if (ext === 'xlsx') {
                 var first_worksheet = workbook.Sheets[workbook.SheetNames[0]];
                 data = XLSX.utils.sheet_to_json(first_worksheet, { header: 1 });
+                // console.log(data[0]);
+                if (validateComingData(data[0], fields)) {
 
-                for (i = 1; i < data.length; i++) {
-                    let array2 = data[i];
-                    rows.push(rowToBeSave(array2, fields.importing))
+                    for (i = 1; i < data.length; i++) {
+                        let array2 = data[i];
+
+                        if (array2[1] !== undefined) {
+                            rows.push(rowToBeSave(array2, fields.importing))
+                        }
+                    }
+                }
+                else {
+                    res.send({ success: false, message: 'You are uploading wrong data for selected data type' })
+                    return;
                 }
 
                 var promises = [];
 
                 rows.forEach(row => {
-                    let findCondition = conditionToBeChecked(row, fields.importing);
-                    promises.push(
-                        entity
-                            .findOrCreate({ where: findCondition, defaults: row })
-                            .then(([result, created]) => {
-                                if (created) {
-                                    let sRow = result.get({ plain: true });
-                                    savedResults.push(sRow)
-                                }
-                                if (!created) {
-                                    let fRow = row
-                                    failedResults.push(fRow)
-                                }
-                            })
-                            .catch((err) => {
-                                console.log(err)
-                                res.json({ success: false, err: err, message: 'something went wrong' })
-                            })
-                    )
+                    if (row !== null) {
+                        let findCondition = conditionToBeChecked(row, fields.importing);
+
+                        promises.push(
+                            entity
+                                .findOrCreate({ where: findCondition, defaults: row })
+                                .then(([result, created]) => {
+                                    if (created) {
+                                        let sRow = result.get({ plain: true });
+                                        savedResults.push(sRow)
+                                    }
+                                    if (!created) {
+                                        let fRow = row
+                                        failedResults.push(fRow)
+                                    }
+                                })
+                                .catch((err) => {
+                                    console.log(err)
+                                    res.json({ success: false, err: err, message: 'something went wrong' })
+                                })
+                        )
+                    }
                 });
                 Promise.all(promises)
                     .then(() =>
-                        res.json({ success: savedResults, failure: failedResults })
+                        res.json({ success: savedResults, failure: failedResults, message: '' })
                     )
                     .then(() => {
                         savedResults = [], failedResults = [];
                     })
+                    .catch((err) => {
+                        console.log(err);
+                    })
             }
             else {
-                res.send({ success: false })
+                res.send({ success: false, message: 'you can upload only Excel files' })
             }
 
         });
@@ -92,6 +109,10 @@ rowToBeSave = (array2, fields) => {
             entity = Drivers;
             let driver = { name: array2[1], email: array2[2], cell: array2[3], address: array2[4] }
             return driver
+        case "INVENTORY":
+            entity = Inventory;
+            let inventory = { name: array2[1], description: array2[2], rate: array2[3], qty: array2[4], price: array2[5], }
+            return inventory
         case "PERMISSIONS":
             entity = Permissions;
             let permission = { name: array2[1] }
@@ -125,6 +146,7 @@ conditionToBeChecked = (row, fields) => {
         fields === 'PRODUCTcATEGORIES' ||
         fields === 'PRODUCTS' ||
         fields === 'ROLES' ||
+        fields === 'INVENTORY' ||
         fields === 'ROUTES'
     ) {
         return { name: row.name }
@@ -137,7 +159,45 @@ conditionToBeChecked = (row, fields) => {
         return { email: row.email }
     }
 }
+validateComingData = (comingRow, fields) => {
+    let ourRow;
+    switch (fields.importing) {
+        case 'CUSTOMERS':
+        case 'DRIVERS':
+            ourRow = ['Sr.', 'name', 'email', 'cell', 'address']
+            console.log(ourRow)
+            break;
+        case 'AREAS':
+        case 'PERMISSIONS':
+        case 'PRODUCTcATEGORIES':
+        case 'ROLES':
+            ourRow = ['Sr.', 'name']
+            console.log(ourRow)
 
+            break;
+        case 'INVENTORY':
+            ourRow = ['Sr.', 'name', 'description', 'rate', 'qty', 'price']
+            console.log(ourRow)
+            break;
+        case 'PRODUCTS':
+            ourRow = ['Sr.', 'name', 'price', 'description']
+            console.log(ourRow)
+            break;
+        case 'ROUTES':
+            ourRow = ['Sr.', 'name', 'description']
+            console.log(ourRow)
+            break;
+        case 'USERS':
+            ourRow = ['Sr.', 'name', 'email', 'cell', 'address', 'username', 'password']
+            console.log(ourRow)
+            break;
+    }
+
+    if (JSON.stringify(comingRow) === JSON.stringify(ourRow)) {
+        return true
+    }
+    else return false
+}
 
 
 

@@ -3,13 +3,13 @@ var passport = require('passport');
 module.exports = function (server) {
 
 
-    server.post('/login', function (req, res, next) {
+    server.post('/auth', function (req, res, next) {
         passport.authenticate('local', function (err, user, info) {
             if (err) {
                 return next(err);
             }
             if (!user) {
-                res.send({ success: 'false', message: info.message });
+                res.send({ success: false, message: info.message });
                 return
             }
             req.logIn(user, function (err) {
@@ -18,7 +18,7 @@ module.exports = function (server) {
                 }
                 // if (user.role_id == 1) {
                 // res.redirect('/home')
-                res.send({ success: 'logged in', route: '/home', message: '' })
+                res.send({ success: true, route: '/home', message: '' })
 
                 // }
                 // else {
@@ -34,7 +34,7 @@ module.exports = function (server) {
     //     res.send({ success: 'logged in', route: '/about/' + req.user.username, message: '' })
 
     // });
-    server.get('/home', isLoggedIn, function (req, res) {
+    server.get('/isAuth', isLoggedIn, function (req, res) {
 
         res.send({ loggedIn: true, user: req.user })
 
@@ -46,21 +46,14 @@ module.exports = function (server) {
             return next();
         }
         // otherwise, redirect them to the login page
-        res.redirect('/login');
+        res.send({ loggedIn: false, user: req.user })
+        // res.redirect('/login');
     }
-    // server.get('/logout', function (req, res) {
-    //     req.logout();
-    //     res.redirect('/login');
-    // });
-    // server.get('/login', function(req, res){
-    //     res.send({message:'ok'});
-    // })
 
     server.get('/logout', function (req, res) {
-        console.log(req);
-        console.log(req.user);
 
         req.logout();
-        res.send({ success: true, route: '/', user: req.user });
+        res.send({ success: true, route: '/login', user: req.user });
+
     })
 }

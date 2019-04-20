@@ -30,6 +30,7 @@ require('./server/routes/route-invoices')(server);
 require('./server/routes/route-returns')(server);
 require('./server/routes/route-sales')(server);
 require('./server/routes/route-imports')(server);
+require('./server/routes/route-inventory')(server);
 
 
 

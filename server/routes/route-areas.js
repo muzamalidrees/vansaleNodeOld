@@ -56,6 +56,7 @@ module.exports = function (server) {
                 area
                     .update({
                         name: req.body.name,
+                        area_code: req.body.area_code
                     })
                     .then((area) => {
 
