@@ -38,11 +38,11 @@ module.exports = function (server) {
     ));
 
     passport.serializeUser(function (user, next) {
-        console.log('serialize')
+        // console.log('serialize')
         next(null, user.id);
     })
     passport.deserializeUser(function (id, next) {
-        console.log('deserialize')
+        // console.log('deserialize')
         Users.findById(id)
             .then((user) => {
                 return next(null, user)

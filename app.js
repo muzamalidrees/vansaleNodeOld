@@ -1,12 +1,15 @@
 var express = require('express')
-
 var bodyparser = require('body-parser')
 var server = express()
+const path = require('path');
 
 
 // server.use(express.static('./build'))
+server.use(express.static(path.join(__dirname, 'build')));
 server.use(bodyparser.urlencoded({ extended: true }))
 server.use(bodyparser.json())
+
+
 
 
 
@@ -31,6 +34,7 @@ require('./server/routes/route-returns')(server);
 require('./server/routes/route-sales')(server);
 require('./server/routes/route-imports')(server);
 require('./server/routes/route-inventory')(server);
+require('./server/routes/route-allGet')(server);
 
 
 
@@ -38,7 +42,6 @@ require('./server/routes/route-inventory')(server);
 server.use((err, req, res, next) => {
     console.log(err)
     res.status(500).send(err.message)
-    // res.status(500).send("Error catched by error handler")        //to display our message
 })
 
 server.listen(process.env.PORT || 8000, () => console.log("server is running"))
