@@ -1,12 +1,11 @@
-
-
-
 const Sequelize = require('sequelize');
-var dbName = 'muzamaldb';
-var user = 'vansale';
-var password = 'vansale1234';
+
+
+// var dbName = 'muzamaldb';
+// var user = 'vansale';
+// var password = 'vansale1234';
 var config = {
-    host: 'localhost',
+    // host: 'localhost',
     dialect: 'mysql',
     logging: false,
     omitNull: true,
@@ -18,8 +17,10 @@ var config = {
     }
 }
 
-const sequelize = new Sequelize(dbName, user, password, config)
-
+// const sequelize = new Sequelize(dbName, user, password, config)
+// var sequelize = new Sequelize('mysql://51.75.74.185:3306/vansale', 'vansaledbusr', '7WPz!39vmnzK', [options = config])
+var sequelize = new Sequelize('mysql://vansaledbusr:7WPz!39vmnzK@51.75.74.185:3306/vansale',[config]);
+// 
 sequelize
     .authenticate()
     .then(() => {
