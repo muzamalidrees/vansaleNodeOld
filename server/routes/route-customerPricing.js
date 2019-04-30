@@ -40,7 +40,7 @@ module.exports = function (server) {
                 return customerPriceGroup.destroy();
             })
             .then(customerPriceGroup => {
-                res.json({ success: true, data: customerPriceGroup, message: 'customerPriceGroup with name: ' + customerPriceGroup.name + ' deleted.' })
+                res.json({ success: true, data: customerPriceGroup, message: 'customerPriceGroup deleted.' })
 
             })
             .catch((err) => {
@@ -59,7 +59,7 @@ module.exports = function (server) {
                     })
                     .then((customerPriceGroup) => {
 
-                        res.json({ success: true, data: customerPriceGroup, message: 'customerPriceGroup with id: ' + customerPriceGroup.id + ' updated successfully.' })
+                        res.json({ success: true, data: customerPriceGroup, message: 'customerPriceGroup updated successfully.' })
                     })
             })
 

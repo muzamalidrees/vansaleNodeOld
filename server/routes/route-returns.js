@@ -7,7 +7,7 @@ module.exports = function (server) {
         Returns
             .create(returns)
             .then((returns) => {
-                res.json({ success: true, data: returns, message: ' registered successfully' })
+                res.json({ success: true, data: returns, message: 'returns registered successfully' })
             })
             .catch((err) => {
                 res.json({ success: false, err: err, message: 'somehting went wrong' })

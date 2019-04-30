@@ -37,8 +37,8 @@ module.exports = function (server) {
             })
             .then(inventory => {
                 res.json({ success: true, data: inventory, message: 'inventory with name: ' + inventory.name + ' deleted.' })
-
             })
+
             .catch((err) => {
                 res.json({ success: false, err: err })
 
@@ -67,5 +67,58 @@ module.exports = function (server) {
 
             })
     })
+    server.put('/updateSalesItemQty', (req, res) => {
+        Inventory
+            .findOne({ where: { name: req.body.productName } })
+            .then(inventory => {
+                let comingQty = req.body.qty;
+                let existingQty = inventory.qty;
+                let updatedQty = existingQty - comingQty
+                inventory
+                    .update({
+                        qty: updatedQty
+                    })
+                    .then((inventory) => {
+                        res.json({ success: true, data: inventory, message: 'inventory with id: ' + inventory.id + ' updated successfully.' })
+                    })
+            })
+            .catch((err) => {
+                res.json({ success: false, err: err })
+            })
+    })
+    server.put('/updateReturnsItemQty', (req, res) => {
+        Inventory
+            .findOne({ where: { name: req.body.productName } })
+            .then(inventory => {
+                let comingQty = req.body.qty;
+                let existingQty = inventory.qty;
+                let updatedQty = existingQty + comingQty
+                inventory
+                    .update({
+                        qty: updatedQty
+                    })
+                    .then((inventory) => {
+                        res.json({ success: true, data: inventory, message: 'inventory with id: ' + inventory.id + ' updated successfully.' })
+                    })
+            })
+            .catch((err) => {
+                res.json({ success: false, err: err })
 
+            })
+    })
+    server.get('/checkItemQty/:item', (req, res) => {
+        console.log(req);
+
+        Inventory
+            .findOne({ where: { name: req.params.item } })
+            .then(inventory => {
+                console.log(inventory);
+
+                res.json({ success: true, qty: inventory.qty })
+            })
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
+    })
 }
