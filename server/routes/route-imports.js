@@ -44,7 +44,7 @@ module.exports = function (server) {
                     }
                 }
                 else {
-                    res.send({ success: false, message: 'You are uploading wrong data for selected data type' })
+                    res.send({ success: false, message: 'You are uploading wrong data for selected data type.please upload according to sample file' })
                     return;
                 }
 

@@ -107,12 +107,12 @@ module.exports = function (server) {
             })
     })
     server.get('/checkItemQty/:item', (req, res) => {
-        console.log(req);
+        // console.log(req);
 
         Inventory
             .findOne({ where: { name: req.params.item } })
             .then(inventory => {
-                console.log(inventory);
+                // console.log(inventory);
 
                 res.json({ success: true, qty: inventory.qty })
             })
