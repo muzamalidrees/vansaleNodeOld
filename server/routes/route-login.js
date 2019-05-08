@@ -18,7 +18,7 @@ module.exports = function (server) {
                 }
                 // if (user.role_id == 1) {
                 // res.redirect('/home')
-                res.send({ success: true, route: '/home', message: '' })
+                res.send({ success: true, route: '/home', message: '', user: user })
 
                 // }
                 // else {

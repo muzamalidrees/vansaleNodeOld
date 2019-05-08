@@ -23,7 +23,7 @@ module.exports = function (server) {
             Users.findOne({ where: { email: username } })
                 .then((user) => {
                     if (!user) {
-                        next(null, false, { message: 'email doesnt exist' })
+                        next(null, false, { message: `email doesn't exist` })
                     }
                     else if (user.password !== password) {
                         next(null, false, { message: 'incorrect Password' })

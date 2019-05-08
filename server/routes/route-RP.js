@@ -9,18 +9,33 @@ module.exports = function (server) {
             .then(([rolePermission, created]) => {
 
                 if (created) {
-                    res.json({ success: true, data: rolePermission, message: 'permission against that role registered successfully.' })
+                    res.json({ success: true, role_id: rolePermission.role_id, permission_id: rolePermission.permission_id, message: 'created' })
                 }
                 if (!created) {
-                    res.json({ success: false, message: 'permission against that role already exists.' })
+                    res.json({ success: false, role_id: rolePermission.role_id, permission_id: rolePermission.permission_id, message: 'existing' })
                 }
 
             })
             .catch((err) => {
-                res.json({ success: false, err: err, message: 'something went wrong' })
+                res.json({ success: false, message: 'error' })
 
             })
 
+    })
+    server.delete('/deleteRP', (req, res) => {
+        RP
+            .findOne({ where: { id: req.body.value } })
+            .then(rp => {
+                return rp.destroy();
+            })
+            .then(rp => {
+                res.json({ success: true, data: rp, message: 'RP with id: ' + rp.id + ' deleted.' })
+
+            })
+            .catch((err) => {
+                res.json({ success: false, err: err })
+
+            })
     })
 
     server.get('/getAllRolesPermissions', (req, res) => {
