@@ -1,11 +1,11 @@
 const Sequelize = require('sequelize');
 
 
-// var dbName = 'muzamaldb';
-// var user = 'vansale';
-// var password = 'vansale1234';
+var dbName = 'muzamaldb';
+var user = 'vansale';
+var password = 'vansale1234';
 var config = {
-    // host: 'localhost',
+    host: 'localhost',
     dialect: 'mysql',
     logging: false,
     omitNull: true,

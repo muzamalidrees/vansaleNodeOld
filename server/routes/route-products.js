@@ -1,4 +1,6 @@
+var XLSX = require('xlsx')
 var Products = require('../models/model-products')
+
 // var passport = require('passport')
 
 module.exports = function (server) {
@@ -74,7 +76,47 @@ module.exports = function (server) {
 
             })
     })
+    // server.get('/getExportFilePRODUCTS', (req, res) => {
+    //     // Customers.findAll({ where: { name: 'abc' } }).then(customers => {
+    //     Products
+    //         .findAll(
+    //             // { limit: req.body.limit }
+    //         ).then(products => {
+    //             products = products.map(function (product) { return product.toJSON() });
+    //             console.log(products);
+
+
+    //             var data = products.map(Object.values);
+    //             console.log(data);
+    //             data.map(function (a) {
+    //                 a.pop();
+    //                 a.pop();
+    //                 a.pop();
+    //             })
+    //             console.log(data);
+
+    //             data.splice(0, 0, ['ID', 'name', 'price', 'description', 'product_category_id'])
+    //             console.log(data);
+    //             var ws = XLSX.utils.aoa_to_sheet(data);
+    //             var wb = XLSX.utils.book_new();
+    //             XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
+
+    //             /* generate buffer */
+    //             var buf = XLSX.write(wb, { type: 'base64', bookType: "xlsx" });
+
+    //             /* send to client */
+    //             console.log(buf);
+
+    //             res.status(200).send(buf);
+
+    //         })
+    //         .catch((err) => {
+    //             res.json({ success: false, err: err })
+
+    //         })
+    // })
 }
+
 
 
 

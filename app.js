@@ -5,7 +5,7 @@ const path = require('path');
 
 
 // server.use(express.static('./build'))
-server.use(express.static(path.join(__dirname, 'build')));
+// server.use(express.static(path.join(__dirname, 'build')));
 server.use(bodyparser.urlencoded({ extended: true }))
 server.use(bodyparser.json())
 
