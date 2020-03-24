@@ -15,7 +15,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "formidable": "^1.2.1",
-    "mongoose": "^5.4.16",
+    "mongoose": "^5.7.5",
     "mysql": "^2.16.0",
     "mysql2": "^1.6.5",
     "passport": "^0.4.0",
